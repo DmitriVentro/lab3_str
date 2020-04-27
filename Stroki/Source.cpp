@@ -19,7 +19,7 @@ namespace copy_str
 	{
 		for (int i = 0; i <= lenStr; i++)
 		{
-			str2[i] = str1[i];
+			str2[i] = str1[i];//doesn't work
 		}
 	}
 	void cpyStr(char* str1, char* str2)
