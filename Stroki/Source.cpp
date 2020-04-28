@@ -2,36 +2,28 @@
 #include<fstream>
 #include<string.h>
 using namespace std;
-char* input_file()
+const int len = 30, strings = 5;
+const char ch = '\n';
+void input_file(char *mass)
 {
-	int k, i;
-	k = 0;
-	char Str;
-	string str;
-	ifstream file;
-	file.open("D:\\who\\LoveCPP.txt", ios::in);
-	if (!file.is_open()) { cout << "Error: no file\n" << endl; }
-	else
+	
+	
+	ifstream fs("strings.txt", ios::in | ios::binary);
+	
+	if (!fs) {cout<<"error";}; //Если ошибка открытия файла, то завершаем программу
+
+	while (getline(fs, mass))
 	{
-		while (file.get(Str))
-		{
-			if (Str == '!'	|| Str == '?'	|| Str == '.') break;
-			else k++;
-		}
+		std::cout << mass << std::endl;
 	}
-	char* s2 = new char[k];
-	for (i = 0; i < k; i++)
-	{
-		file >> s2;
-		cout << s2 << "\t";
-	}
-	return s2;
+	fs.close();
 }
 
 int main()
 {
-	
-	char* fileStr = input_file();
+	char mass[100];
+
+	char* fileStr = input_file(mass);
 	setlocale(LC_ALL, "");
 	//char str1[10];
 	//char str2[10];
