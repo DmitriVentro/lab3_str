@@ -43,6 +43,6 @@ int main()
 	cout << endl;
 	strcpy(MainStr, AllFileInOneArray[0]);
 	SecondTask::FindTheShortestWord(MainStr, min, BeforeChangesStr);
-	cout << endl << BeforeChangesStr;
+	cout << endl << "Самое короткое слово: " << BeforeChangesStr;
 	return 0;
 }
