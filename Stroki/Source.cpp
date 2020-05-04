@@ -1,50 +1,16 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define DELIM " \t\n,.:;?!"
-#include <iostream>
-#include <fstream> 
-#include <string>
+#include<iostream>
+#include<string.h>
+#include<fstream>
 using namespace std;
-struct word_t {
-	char* _word;
-	size_t length;
-};
-namespace ThirdTask
-{
-	void FindTheShortestWord(char* MainStr, int min, char* BeforeChangesStr)
-	{
-		cout << MainStr;
-		for (char* p = strtok(MainStr, " "); p; p = strtok(NULL, " "))
-		{
-			if (strlen(p) < min)
-			{
-				min = strlen(p);
-				strcpy(BeforeChangesStr, p);
-			}
-		}
-	}
-	
-
-	void _swap(word_t& w1, word_t& w2) {
-		word_t tmp = w1;
-		w1 = w2;
-		w2 = tmp;
-	}
-}
-
 int main()
 {
+	const int whosurstr = 3;
 	setlocale(LC_ALL, "");
-	int min = 25;
-	char MainStr[100];
-	char BeforeChangesStr[100];
-	char AllFileInOneArray[3][41];
+	const char p = '\n';
+	char* arr[100];
 	char str1[100];
-	char str2[100];
-	char str3[100];
-	char *NewStr1;
-	char *NewStr2;
-	char *NewStr3;
-	char p = '\n';
+	char array[3][41];
 	string path = "D:\\who\\LoveCPP.txt";
 	ifstream fin;
 	fin.open(path);
@@ -55,36 +21,45 @@ int main()
 	}
 	for (int i = 0; i < 3; i++)
 	{
-		fin.getline(AllFileInOneArray[i], 41 - 1, p);
-		cout << AllFileInOneArray[i] << "\n";
+		fin.getline(array[i], 41 - 1, p);
+		cout << array[i] << "\n";
 	}
-	cout << endl;
-	word_t words[BUFSIZ];
+	cout << "\n\n";
+	cout << "Отсортированные строки:\n";
+	for (size_t i = 0; i < whosurstr; i++)
+	{
+		strcpy(str1, array[i]);
+		//cout << str1;
+		char* pch;
+		pch = strtok(str1, " !?,.-"); // во втором параметре указаны разделитель (пробел, запятая, точка, тире)
 
+		int k = 0;
+		while (pch != NULL)
+		{
+			arr[k] = pch;
+			k++;
+			pch = strtok(NULL, " !?,.-");
+		}
+		char* temp = NULL; // временная переменная для обмена элементов местами
 
-	/*
-	strcpy(str1, AllFileInOneArray[0]);
-	strcpy(str2, AllFileInOneArray[1]);
-	strcpy(str3, AllFileInOneArray[2]);
-	cout << str1 <<"\n";
-	cout << str2 <<"\n";
-	cout << str3 <<"\n";
-	*/
-	int i = 0, j;
-	for (NewStr1 = strtok(str1, DELIM); NewStr1; NewStr1 = strtok(NULL, DELIM)) {
-		words[i]._word = new char[strlen(NewStr1) + 1];
-		strcpy(words[i]._word, NewStr1);
-		words[i++].length = strlen(NewStr1);
+			// Сортировка массива пузырьком
+		for (int i = 0; i < k - 1; i++) {
+			for (int j = 0; j < k - i - 1; j++) {
+				if (strlen(arr[j]) < strlen(arr[j + 1])) {
+					// меняем элементы местами
+					temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+		
+		for (int i = 0; i < k; i++)
+		{
+			cout << arr[i] << " ";
+		}
+		cout << endl;
 	}
-	for (int i_ = 0; i_ < i; ++i_)
-		for (j = i_; j < i; ++j)
-			if (words[i_].length > words[j].length)
-				ThirdTask::_swap(words[i_], words[j]);
-	for (j = 0; j < i; ++j)
-		std::cout << words[j]._word << ' ';
-	for (j = 0; j < i; ++j)
-		delete[] words[j]._word;
 
-	cout << endl << AllFileInOneArray;
 	return 0;
 }
