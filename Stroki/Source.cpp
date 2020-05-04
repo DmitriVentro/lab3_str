@@ -1,32 +1,48 @@
-#include<iostream>
-#include<fstream>
-#include<string.h>
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <fstream> 
+#include <string>
 using namespace std;
-const int len = 30, strings = 5;
-const char ch = '\n';
-void input_file(char *mass)
+namespace SecondTask
 {
-	
-	
-	ifstream fs("strings.txt", ios::in | ios::binary);
-	
-	if (!fs) {cout<<"error";}; //Если ошибка открытия файла, то завершаем программу
-
-	while (getline(fs, mass))
+	void FindTheShortestWord(char* MainStr, int min, char* BeforeChangesStr)
 	{
-		std::cout << mass << std::endl;
+		cout << MainStr;
+		for (char* p = strtok(MainStr, " "); p; p = strtok(NULL, " "))
+		{
+			if (strlen(p) < min)
+			{
+				min = strlen(p);
+				strcpy(BeforeChangesStr, p);
+			}
+		}
 	}
-	fs.close();
 }
 
 int main()
 {
-	char mass[100];
-
-	char* fileStr = input_file(mass);
 	setlocale(LC_ALL, "");
-	//char str1[10];
-	//char str2[10];
-	//int lenStr = copy_str::size_str1(str1);
-	//cout << "Скопированная строка:\n" << str2;
+	int min = 25;
+	char MainStr[100];
+	char BeforeChangesStr[100];
+	char AllFileInOneArray[3][41];
+	const char p = '\n';
+	string path = "D:\\who\\LoveCPP.txt";
+	ifstream fin;
+	fin.open(path);
+	if (!fin.is_open())
+	{
+		cout << "файла не будет он принял ислам:/\n";
+		return 0;
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		fin.getline(AllFileInOneArray[i], 41 - 1, p);
+		cout << AllFileInOneArray[i] << "\n";
+	}
+	cout << endl;
+	strcpy(MainStr, AllFileInOneArray[0]);
+	SecondTask::FindTheShortestWord(MainStr, min, BeforeChangesStr);
+	cout << endl << BeforeChangesStr;
+	return 0;
 }
